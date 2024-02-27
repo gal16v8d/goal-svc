@@ -1,0 +1,57 @@
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: goal-rate-limit
+      url: /api.*
+      http-response-body: "{ \"message\" : \"You have exhausted your API request limit\" }"
+      rate-limits:
+      - bandwidths:
+        - capacity: 100
+          time: 1
+          unit: seconds
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    baggage:
+      correlation:
+        enabled: true
+    sampling:
+      probability: 1.0
+    
+server:
+  port: 8102
+
+service:
+  welcome:
+    message: Hello from local goal-svc
+
+spring:
+  application:
+    name: goal-svc
+  boot:
+    admin:
+      client:
+        url: http://localhost:8763
+  cache:
+    jcache:
+      provider: com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider
+    cache-names: goal-rate-limit
+  config:
+    import: "optional:configserver:http://localhost:8088"
+  datasource:
+    url: jdbc:h2:file:./goal
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ${DB_GOAL_PASS}
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true

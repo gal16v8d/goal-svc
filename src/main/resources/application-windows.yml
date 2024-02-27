@@ -1,0 +1,8 @@
+service:
+  welcome:
+    message: Hello from local goal-svc (Windows)
+# Current docker IP on my Windows PC is 192.168.99.113
+management:
+  zipkin:
+    tracing:
+      endpoint: http://192.168.99.113:9411/api/v2/spans

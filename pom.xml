@@ -356,7 +356,6 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
 					<excludes>**/target/generated-sources/**</excludes>
-					<encoding>UTF-8</encoding>
 					<consoleOutput>true</consoleOutput>
 					<failsOnError>true</failsOnError>
 					<linkXRef>false</linkXRef>
